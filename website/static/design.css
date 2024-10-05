@@ -1,0 +1,18 @@
+.custom-bg-gradient {
+    background: linear-gradient(90deg, #000000, #434343); /* Gradiente personalizado */
+}
+
+.custom-container {
+    width: 50%; /* Ajusta el ancho del contenedor */
+    max-width: 1200px; /* Tamaño máximo del contenedor */
+    height: 500px; /* Ajusta la altura del contenedor */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+}
+
+.underline .link {
+    text-decoration: underline; /* Subraya los enlaces de la navegación */
+}
+
+.underline .link:hover {
+    text-decoration: none; /* Opcional: quita el subrayado al pasar el ratón */
+}
