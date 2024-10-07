@@ -21,10 +21,12 @@ def create_app():
     #Importamos los blueprints
     from .view import views
     from .auth import auth
+    from .Profile import profile
     
     #Esto registra nuestros blueprints y le dice a python en que prefijo ir a buscar nuestras paginas.
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(profile, url_prefix='/')
 
     from .models import User, Note
 
