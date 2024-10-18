@@ -58,3 +58,14 @@ body {
     font-weight: 400;
   }
   
+
+  /* Estilo del fondo en el archivo CSS */
+.bg-costum {
+    background-image: url('assets/fondo.png');
+    background-size: cover;         /* Ajusta el tamaño del fondo */
+    background-position: center;    /* Centra la imagen */
+    background-repeat: no-repeat;   /* No repite la imagen */
+    background-attachment: fixed;   /* Fija la imagen mientras se hace scroll */
+    min-height: 100vh;  
+}
+

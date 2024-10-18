@@ -16,3 +16,9 @@ class User(db.Model,UserMixin): # Crear el usuario que va a la base de datos
     password = db.Column(db.String(150))
     first_name  = db.Column(db.String(150))
     notes = db.relationship('Note') #Relaciona las Notas con el ususrario
+
+
+class Acquisition(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.Integer, nullable=False)
+    count = db.Column(db.Integer, nullable=False)

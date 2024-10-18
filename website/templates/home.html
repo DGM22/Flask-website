@@ -1,26 +1,177 @@
 <!--Se utiliza el extends para renderizar la base de la pagina en la nueva pagina-->
 {% extends "base.html" %} {% block title %} Home {% endblock %}
 
+{% block body_class %}bg-light{% endblock %} <!-- Clase específica para el fondo de la página de inicio -->
+
+
 <!--Se agrega un blocke de contenido y se le agrega un titulo-->
 {% block main %}
-
-<h1 align="center">Cotizador</h1>
-<br/>
-<ul class="list-group list-group-flush" id="notes">
-    {% for note in user.notes %}
-    <li class="list-group-item">
-        {{ note.data }}
-        <button  type = "button" class="close" onClick="deleteNote({{ note.id }})">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </li>
-    {%endfor%}
-</ul>
- <form method="POST">
-    <textarea name="note" id="note" class="form-control"></textarea>
+    <h1 align="center">Cotizador</h1>
     <br/>
-    <div align="center">
-        <button type="submit" class="btn btn-primary">Add Note</button>
+    <ul class="list-group list-group-flush" id="notes">
+        {% for note in user.notes %}
+        <li class="list-group-item">
+            {{ note.data }}
+            <button  type = "button" class="close" onClick="deleteNote({{ note.id }})">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </li>
+        {%endfor%}
+    </ul>
+    <form method="POST" align="center">
+        
+        <div class="form-floating m-3">
+            <input 
+            type="text"
+            class="form-control
+            id="Modelo"
+            name="Modelo"
+            placeholder="Ingresa el Modelo"
+            />
+            <label for="Modelo">Modelo</label>
+        </div>  
+
+        <div class="form-floating m-3">
+            <input 
+            type="text"
+            class="form-control
+            id="Modelo"
+            name="Modelo"
+            placeholder="Ingresa el Modelo"
+            />
+            <label for="Modelo">Modelo</label>
+        </div>
+
+       <div class="form-floating m-3">
+            <input 
+            type="text"
+            class="form-control
+            id="Modelo"
+            name="Modelo"
+            placeholder="Ingresa el Modelo"
+            />
+            <label for="Modelo">Modelo</label>
+        </div>
+
+    </form>
+    <br/>
+
+    <div class="container-md shadow rounded">
+        <h1 align = "center" class="px-3 py-3">Grafica Numero 1</h1>
+        <div class="p-3">
+            <canvas id="acquisitions" style="width: 800px;" class="p-3"></canvas>
+        </div>
     </div>
- </form>
+    <br/>
+
+    <div class="shadow rounded">
+        <h1 align="center" class="px-3 py-3">Grafica Numero 2</h1>
+        <div class="p-3 ">
+            <canvas id="secondChart" style="width: 800px;" class="p-3"></canvas> <!-- Nuevo canvas para la segunda gráfica -->
+        </div>
+    </div>
+
 {% endblock %}
+
+{% block script %}
+    <script>
+
+        async function Charts() {
+            console.log("Charts function called");
+
+            const response = await fetch('/api/acquisitions');
+            const datos = await response.json();  // Convertimos la respuesta a JSON
+
+            // Mapear los datos de la API para obtener años y valores
+            const years = datos.map(row => row.year);
+            const counts = datos.map(row => row.count);
+
+            new Chart(
+                document.getElementById('acquisitions'),
+                {
+                    type: 'bar',
+                    options: {
+                        responsive: true, // Ensure it's responsive
+                        maintainAspectRatio: false, // Allows it to scale freely
+                            scales: {
+                                 y: {
+                                        beginAtZero: true,
+                                        suggestedMax: 35, // Ajustamos para forzar más espacio en la parte superior
+                                        ticks: {
+                                            stepSize: 5,  // Definimos un intervalo de 5 entre las marcas
+                                            maxTicksLimit: 10  // Aseguramos que haya más ticks visibles
+                                        }
+                                    },
+                            },
+                        animation: true,
+                        plugins: {
+                            legend: {
+                                display: true
+                            },
+                        tooltip: {
+                            enabled: true
+                        }
+                        }
+                    },
+                    data: {
+                        labels: years,
+                        datasets: [
+                        {
+                            label: 'Acquisitions by year',
+                            data: counts,
+                            borderWidth: 1
+                        }
+                        ]
+                    }
+                }
+            );
+
+            new Chart(
+                document.getElementById('secondChart'),
+                    {
+                        type: 'bar',
+                        options: {
+                            responsive: true, // Ensure it's responsive
+                            maintainAspectRatio: false, // Allows it to scale freely
+                            scales: {
+                                 y: {
+                                        beginAtZero: true,
+                                        suggestedMax: 35, // Ajustamos para forzar más espacio en la parte superior
+                                        ticks: {
+                                            stepSize: 5,  // Definimos un intervalo de 5 entre las marcas
+                                            maxTicksLimit: 10  // Aseguramos que haya más ticks visibles
+                                        }
+                                    }
+                            },
+                            animation: true,
+                            plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: true
+                            }
+                            }
+                        },
+                        data: {
+                            labels: years,
+                            datasets: [
+                            {
+                                label: 'Acquisitions by year',
+                                data: counts
+                            }
+                            ]
+                        }
+                    }
+            );
+
+        };
+            
+        Charts();
+
+        window.addEventListener('resize', Charts);
+
+
+    </script>
+{% endblock %}      
+
